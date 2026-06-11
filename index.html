@@ -73,12 +73,12 @@
       align-items: center;
       padding: 1.5rem 0;
     }
-    .botanical-divider svg { width: 260px; height: auto; }
+    .botanical-divider svg { width: 100%; max-width: 260px; height: auto; }
 
     /* =============================================
        SECTION SHARED HEADERS
     ============================================= */
-    .s-header { text-align: center; margin-bottom: 4.5rem; }
+    .s-header { text-align: center; margin-bottom: 4.5rem; padding: 0 1rem; }
     .s-eyebrow {
       display: block;
       font-size: 0.68rem;
@@ -146,12 +146,21 @@
       color: var(--white);
       padding: 2rem;
     }
+    .hero-eyebrow {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: rgba(244,232,224,0.85);
+      margin-bottom: 1.75rem;
+    }
     .hero-names {
       font-family: 'Great Vibes', cursive;
-      font-size: clamp(4.5rem, 12vw, 9.5rem);
+      font-size: clamp(3.8rem, 12vw, 9.5rem); /* تحسين المقاس الأدنى للموبايل الصغير */
       line-height: 0.95;
       color: var(--white);
-      text-shadow: 0 4px 606px rgba(0,0,0,0.18);
+      text-shadow: 0 4px 60px rgba(0,0,0,0.18);
       display: block;
     }
     .hero-divider {
@@ -421,15 +430,15 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      gap: clamp(1.5rem, 4vw, 4.5rem);
+      gap: clamp(1rem, 4vw, 4.5rem); /* تعديل لضمان عدم الخروج من الحواف */
       position: relative;
       z-index: 1;
     }
-    .cd-unit { text-align: center; }
+    .cd-unit { text-align: center; min-width: 65px; } /* ضمان مساحة دنيا مريحة على الموبايل */
     .cd-num {
       display: block;
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.8rem, 9.5vw, 7.5rem);
+      font-size: clamp(2.3rem, 9.5vw, 7.5rem); /* تصغير الحد الأدنى ليرحب بجميع شاشات الجوال */
       font-weight: 300;
       color: var(--white);
       line-height: 1;
@@ -439,17 +448,17 @@
       display: block;
       font-size: 0.58rem;
       font-weight: 400;
-      letter-spacing: 0.42em;
+      letter-spacing: 0.32em; /* تقليل التباعد قليلاً ليناسب الموبايل */
       text-transform: uppercase;
       color: rgba(212,168,153,0.55);
       margin-top: 0.65rem;
     }
     .cd-sep {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      font-size: clamp(1.8rem, 4.5vw, 3.8rem);
       color: rgba(255,255,255,0.15);
       font-weight: 300;
-      padding-top: 0.4rem;
+      padding-top: 0.2rem;
       line-height: 1;
       user-select: none;
     }
@@ -519,7 +528,7 @@
     }
     .f-input:focus { border-bottom-color: var(--gold); }
     .f-input::placeholder { color: var(--rose); font-style: italic; font-weight: 300; }
-    .radio-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .radio-row { display: flex; gap: 2rem; flex-wrap: wrap; } /* إضافة flex-wrap لحماية العرض في الجوال */
     .radio-opt {
       display: flex;
       align-items: center;
@@ -701,7 +710,7 @@
     }
 
     /* =============================================
-       RESPONSIVE
+       RESPONSIVE MEDIA QUERIES (OPTIMIZED)
     ============================================= */
     @media (max-width: 768px) {
       .milestone {
@@ -717,14 +726,19 @@
       .g-item:nth-child(1) { grid-column: span 2; }
       .g-item:nth-child(7) { grid-column: span 2; }
       .rsvp-card { padding: 2.5rem 1.75rem; }
-      .cd-grid { gap: 1.25rem; }
-      .cd-sep { display: none; }
+      .cd-sep { display: none; } /* إخفاء النقاط الفاصلة لترك مساحة كاملة للأرقام */
+      .cd-grid { gap: 1.5rem; }
     }
+
     @media (max-width: 480px) {
       #story, #details, #countdown, #gallery, #rsvp { padding: 5rem 1.25rem; }
       .gallery-grid { grid-template-columns: 1fr; gap: 0.65rem; }
       .g-item:nth-child(1),
       .g-item:nth-child(7) { grid-column: span 1; aspect-ratio: 4/3; }
+      .rsvp-card { padding: 2.5rem 1.25rem; }
+      .radio-row { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .cd-grid { gap: 0.75rem; }
+      .cd-unit { min-width: 55px; }
     }
   </style>
 </head>
@@ -735,7 +749,7 @@
     <div class="hero-overlay"></div>
     <div class="hero-content fade-in visible">
       <span class="hero-eyebrow">You are invited to the wedding of</span>
-      <span class="hero-names">Sarah & Omar</span>
+      <h1 class="hero-names">Sarah & Omar</h1>
       <div class="hero-divider">
         <div class="hero-divider-line"></div>
         <div class="hero-divider-dot"></div>
@@ -779,7 +793,7 @@
         </div>
         <div class="m-text">
           <span class="m-chapter">Chapter I</span>
-          <span class="m-script-title">A Chance Encounter</span>
+          <h3 class="m-script-title">A Chance Encounter</h3>
           <p>It was a quiet autumn afternoon in 2019 when Sarah walked into the small bookshop on Riad Street, searching for a novel she'd been chasing for months. She found it — and found Omar reaching for the exact same copy at the exact same moment. Their hands met over the spine of a story, and somehow, their own story began writing itself right there.</p>
           <p>They talked for two hours. Then another two. Neither of them noticed the sun had set until the shopkeeper gently switched off the lights around them.</p>
         </div>
@@ -787,11 +801,11 @@
 
       <div class="milestone flip fade-in">
         <div class="m-img-wrap">
-          <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=800&q=80" alt="Sarah and Omar walking holding hands in a field at sunset shot from behind" class="m-img">
+          <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80" alt="Sarah and Omar walking holding hands close up" class="m-img">
         </div>
         <div class="m-text">
           <span class="m-chapter">Chapter II</span>
-          <span class="m-script-title">The Realization</span>
+          <h3 class="m-script-title">The Realization</h3>
           <p>Months passed, and with each one, a quiet certainty settled deeper into both their hearts. It wasn't one grand moment — it was thousands of small ones. A coffee left on the desk before the other woke. A laugh so familiar it felt ancient. A silence so comfortable it felt like home.</p>
           <p>Omar once told his sister: <em>"She makes the world feel like it's exactly the right size."</em> Sarah told her mother: <em>"He's the only place I've ever felt completely at ease."</em></p>
         </div>
@@ -803,7 +817,7 @@
         </div>
         <div class="m-text">
           <span class="m-chapter">Chapter III</span>
-          <span class="m-script-title">The Question</span>
+          <h3 class="m-script-title">The Question</h3>
           <p>On a warm July evening, under the stars above the hillside they'd walked on their third date, Omar stopped, turned to Sarah, and knelt on the very ground they'd sat on a hundred times before. He had no grand rehearsed speech — only the truest, simplest words he had ever spoken.</p>
           <p><em>"Every version of my future starts with you in it. Will you be in all of them?"</em></p>
           <p>She said yes before he had finished the sentence.</p>
@@ -848,7 +862,7 @@
       <div class="d-card fade-in delay-2">
         <span class="d-icon">◇</span>
         <span class="d-label">The Venue</span>
-        <p class="d-venue-name">Al Qasr Ballroom<br>& Garden Terrace</p>
+        <h3 class="d-venue-name">Al Qasr Ballroom<br>& Garden Terrace</h3>
         <p class="d-venue-addr">
           Grand Heritage Hotel<br>
           King Abdullah II Street<br>
