@@ -157,7 +157,7 @@
     }
     .hero-names {
       font-family: 'Great Vibes', cursive;
-      font-size: clamp(3.8rem, 12vw, 9.5rem); /* تحسين المقاس الأدنى للموبايل الصغير */
+      font-size: clamp(3.8rem, 12vw, 9.5rem);
       line-height: 0.95;
       color: var(--white);
       text-shadow: 0 4px 60px rgba(0,0,0,0.18);
@@ -430,15 +430,15 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      gap: clamp(1rem, 4vw, 4.5rem); /* تعديل لضمان عدم الخروج من الحواف */
+      gap: clamp(1rem, 4vw, 4.5rem);
       position: relative;
       z-index: 1;
     }
-    .cd-unit { text-align: center; min-width: 65px; } /* ضمان مساحة دنيا مريحة على الموبايل */
+    .cd-unit { text-align: center; min-width: 65px; }
     .cd-num {
       display: block;
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.3rem, 9.5vw, 7.5rem); /* تصغير الحد الأدنى ليرحب بجميع شاشات الجوال */
+      font-size: clamp(2.3rem, 9.5vw, 7.5rem);
       font-weight: 300;
       color: var(--white);
       line-height: 1;
@@ -448,7 +448,7 @@
       display: block;
       font-size: 0.58rem;
       font-weight: 400;
-      letter-spacing: 0.32em; /* تقليل التباعد قليلاً ليناسب الموبايل */
+      letter-spacing: 0.32em;
       text-transform: uppercase;
       color: rgba(212,168,153,0.55);
       margin-top: 0.65rem;
@@ -528,7 +528,7 @@
     }
     .f-input:focus { border-bottom-color: var(--gold); }
     .f-input::placeholder { color: var(--rose); font-style: italic; font-weight: 300; }
-    .radio-row { display: flex; gap: 2rem; flex-wrap: wrap; } /* إضافة flex-wrap لحماية العرض في الجوال */
+    .radio-row { display: flex; gap: 2rem; flex-wrap: wrap; }
     .radio-opt {
       display: flex;
       align-items: center;
@@ -726,7 +726,7 @@
       .g-item:nth-child(1) { grid-column: span 2; }
       .g-item:nth-child(7) { grid-column: span 2; }
       .rsvp-card { padding: 2.5rem 1.75rem; }
-      .cd-sep { display: none; } /* إخفاء النقاط الفاصلة لترك مساحة كاملة للأرقام */
+      .cd-sep { display: none; }
       .cd-grid { gap: 1.5rem; }
     }
 
@@ -801,7 +801,7 @@
 
       <div class="milestone flip fade-in">
         <div class="m-img-wrap">
-          <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80" alt="Sarah and Omar walking holding hands close up" class="m-img">
+          <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=800&q=80" alt="Sarah and Omar walking holding hands in a field at sunset shot from behind" class="m-img">
         </div>
         <div class="m-text">
           <span class="m-chapter">Chapter II</span>
@@ -827,7 +827,7 @@
   </section>
 
   <div class="botanical-divider fade-in" style="background:var(--blush-pale);">
-    <svg viewBox="0 0 260 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 260 44" xmlns="http://www.w3.org/2000/svg">
       <line x1="0" y1="22" stroke="#C8A96E" stroke-width="0.6" opacity="0.5" x2="98" y2="22"/>
       <line x1="162" y1="22" stroke="#C8A96E" stroke-width="0.6" opacity="0.5" x2="260" y2="22"/>
       <circle cx="130" cy="22" r="3.5" stroke="#C8A96E" stroke-width="0.7" fill="none"/>
@@ -954,7 +954,7 @@
   </section>
 
   <div class="botanical-divider fade-in" style="background:linear-gradient(to bottom, var(--cream), var(--blush-pale));">
-    <svg viewBox="0 0 260 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 260 44" xmlns="http://www.w3.org/2000/svg">
       <line x1="0" y1="22" stroke="#C8A96E" stroke-width="0.6" opacity="0.5" x2="98" y2="22"/>
       <line x1="162" y1="22" stroke="#C8A96E" stroke-width="0.6" opacity="0.5" x2="260" y2="22"/>
       <circle cx="130" cy="22" r="3.5" stroke="#C8A96E" stroke-width="0.7" fill="none"/>
@@ -1147,8 +1147,38 @@
 
       if (hasError) return;
 
-      document.getElementById('rsvp-inner').style.display   = 'none';
-      document.getElementById('rsvp-thanks').style.display  = 'block';
+      // تغيير حالة الزر أثناء الإرسال لمنع الضغط المتكرر
+      const submitBtn = document.querySelector('.btn-rsvp');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.textContent = "Sending...";
+      submitBtn.disabled = true;
+
+      // ── رابط الـ Web App الخاص بـ Google Sheet ──
+      // استبدل النص بالأسفل برابط النشر (Deployment URL) الذي حصلت عليه من Apps Script
+      const googleSheetUrl = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE"; 
+      
+      fetch(googleSheetUrl, {
+        method: "POST",
+        mode: "no-cors", 
+        headers: { 
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            attendance: attend.value,
+            guests: guests
+        })
+      })
+      .then(() => {
+         // عرض رسالة الشكر فوراً للزائر بعد الإرسال الناجح
+         document.getElementById('rsvp-inner').style.display   = 'none';
+         document.getElementById('rsvp-thanks').style.display  = 'block';
+      })
+      .catch(err => {
+         alert("Connection error, please try again.");
+         submitBtn.textContent = originalBtnText;
+         submitBtn.disabled = false;
+      });
     }
 
     // ── Smooth anchor links ──
